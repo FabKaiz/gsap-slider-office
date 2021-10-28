@@ -98,18 +98,22 @@ function init(){
     return tlTransition;
   }
 
+  const isTweening = () => {
+    return gsap.isTweening('.project');
+  }
+
   // Event listener for the next button
   document.querySelector('button.next').addEventListener('click', function(e) {
     e.preventDefault();
 
-    transition('next', currentStep);
+    !isTweening() && transition('next', currentStep);
   })
 
   // Event listener for the previous buttonn
   document.querySelector('button.prev').addEventListener('click', function(e) {
     e.preventDefault();
 
-    transition('prev', currentStep);
+    !isTweening() && transition('prev', currentStep);
   })
 
   createTimelineIn('next', currentStep);
