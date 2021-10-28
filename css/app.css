@@ -32,6 +32,8 @@ h1, h2, h3, h4 {
 .projects {
     height: 100vh;
     position: relative;
+    visibility: hidden;
+    opacity: 0;
 }
 .project {
     text-align: center;
