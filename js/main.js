@@ -75,20 +75,6 @@ function init(){
 
   }
 
-  // Set in wich direction the slider should move
-  const getGoToIndex = (direction, index) => {
-
-    let goToIndex = index;
-
-    if (direction === 'next') {
-      goToIndex = index < totalSlides ? index+1 : 1
-    } else {
-      goToIndex = index > 1 ? index-1 : totalSlides
-    }
-
-    return goToIndex;
-  }
-
   const updateCurrentStep = (goToIndex) => {
     currentStep = goToIndex;
 
@@ -102,18 +88,17 @@ function init(){
   }
 
   // Timeline transition for direction, in and out animation
-  const transition = (direction, index) => {
+  const transition = (direction, toIndex) => {
 
-    const goToIndex = getGoToIndex(direction, index);
     const tlTransition = gsap.timeline({
       onStart: function() {
-        // console.log({index}, {goToIndex});
-        updateCurrentStep(goToIndex);
+        // console.log({fromIndex: currentStep}, {goToIndex});
+        updateCurrentStep(toIndex);
       }
     });
 
-    const tlOut = createTimelineOut(direction, index);
-    const tlIn = createTimelineIn(direction, goToIndex);
+    const tlOut = createTimelineOut(direction, currentStep);
+    const tlIn = createTimelineIn(direction, toIndex);
 
     tlTransition
       .add(tlOut)
@@ -133,15 +118,23 @@ function init(){
     newDiv.setAttribute('class', 'dots');
 
     // Create a dot for each slide
-    for (let index = 0; index < totalSlides; index++) {
+    for (let index = 1; index < totalSlides+1; index++) {
       const element = document.createElement('button');
-      const text = document.createTextNode(index+1);
+      const text = document.createTextNode(index);
       element.appendChild(text);
       element.setAttribute('class', 'dot');
       
-      if (currentStep === index+1) {
+      if (currentStep === index) {
         element.classList.add('active');
       }
+
+      element.addEventListener('click', () => {
+
+        if (!isTweening() && currentStep !== index) {
+          const direction = index > currentStep ? 'next' : 'prev';
+          transition(direction, index);
+        }
+      })
 
       newDiv.appendChild(element)
     }
@@ -154,16 +147,23 @@ function init(){
   document.querySelector('button.next').addEventListener('click', function(e) {
     e.preventDefault();
 
-    !isTweening() && transition('next', currentStep);
+    const isLast = currentStep === totalSlides;
+    const nextStep = isLast ? 1 : currentStep + 1;
+
+
+    !isTweening() && transition('next', nextStep);
   })
 
   // Event listener for the previous buttonn
   document.querySelector('button.prev').addEventListener('click', function(e) {
     e.preventDefault();
 
-    !isTweening() && transition('prev', currentStep);
-  })
+    const isFirst = currentStep === 1;
+    const previousStep = isFirst ? totalSlides : currentStep - 1;
 
+    !isTweening() && transition('prev', previousStep);
+  })
+  // init sliders and dots
   createTimelineIn('next', currentStep);
   createNavigation();
 }
