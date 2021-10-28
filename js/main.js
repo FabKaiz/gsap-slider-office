@@ -2,8 +2,9 @@ function init(){
   gsap.set('.projects', {autoAlpha: 1});
   gsap.set('.project', {x: '-100%'});
 
-  let currentStep = 3;
+  let currentStep = 1;
   const totalSlides = document.querySelectorAll('.project').length;
+  const wrapper = gsap.utils.wrap(0, totalSlides);
 
   // Update de class of the body to set the background color
   const updateClass = (projectClass) => {
@@ -81,7 +82,7 @@ function init(){
     // Set the active class to the correct dot
     document.querySelectorAll('.dot').forEach((element, index) => {
       element.setAttribute('class', 'dot');
-      if (index+1 === currentStep) {
+      if (index === currentStep) {
         element.classList.add('active');
       }
     })
@@ -124,7 +125,7 @@ function init(){
     newDiv.setAttribute('class', 'dots');
 
     // Create a dot for each slide
-    for (let index = 1; index < totalSlides+1; index++) {
+    for (let index = 0; index < totalSlides; index++) {
       const element = document.createElement('button');
       const text = document.createTextNode(index);
       element.appendChild(text);
@@ -180,9 +181,7 @@ function init(){
   document.querySelector('button.next').addEventListener('click', function(e) {
     e.preventDefault();
 
-    const isLast = currentStep === totalSlides;
-    const nextStep = isLast ? 1 : currentStep + 1;
-
+    const nextStep = wrapper(currentStep + 1);
 
     !isTweening() && transition('next', nextStep);
   })
@@ -191,8 +190,7 @@ function init(){
   document.querySelector('button.prev').addEventListener('click', function(e) {
     e.preventDefault();
 
-    const isFirst = currentStep === 1;
-    const previousStep = isFirst ? totalSlides : currentStep - 1;
+    const previousStep = wrapper(currentStep - 1);
 
     !isTweening() && transition('prev', previousStep);
   })

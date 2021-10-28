@@ -9,9 +9,9 @@ body {
     height: 100%;
     transition: background-color 0.4s linear;
 }
-body.project01 {background-color: #264051;}
-body.project02 {background-color: #D0B4A1;}
-body.project03 {background-color: #A9BCDD;}
+body.project00 {background-color: #264051;}
+body.project01 {background-color: #D0B4A1;}
+body.project02 {background-color: #A9BCDD;}
 
 h1, h2, h3, h4 {
     font-weight: 700;
@@ -131,31 +131,31 @@ a.button {
     border-radius: 2px;
 }
 
-/* =GameBoy */
-.project02 .project-title {
+/* =Desk */
+.project01 .project-title {
     color: #5e534d;
 }
-.project02 .project-subtitle {
+.project01 .project-subtitle {
     color: #463e39ab;
 }
-.project02 .project-image:before {
+.project01 .project-image:before {
     background-color: #e6cbb9c2;
 }
-.project02 .project-image:after {
+.project01 .project-image:after {
     background-color: #e6cbb981;
 }
 
-/* =SVG Christmas */
-.project03 .project-title {
+/* =Recent project */
+.project02 .project-title {
     color: #712D00;
 }
-.project03 .project-subtitle {
+.project02 .project-subtitle {
     color: #712d00a4;
 }
-.project03 .project-image:before {
+.project02 .project-image:before {
     background-color: #712d00ab;
 }
-.project03 .project-image:after {
+.project02 .project-image:after {
     background-color: #74350b94;
 }
 
