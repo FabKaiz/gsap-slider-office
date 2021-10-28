@@ -90,7 +90,15 @@ function init(){
   }
 
   const updateCurrentStep = (goToIndex) => {
-    currentStep = goToIndex
+    currentStep = goToIndex;
+
+    // Set the active class to the correct dot
+    document.querySelectorAll('.dot').forEach((element, index) => {
+      element.setAttribute('class', 'dot');
+      if (index+1 === currentStep) {
+        element.classList.add('active');
+      }
+    })
   }
 
   // Timeline transition for direction, in and out animation
@@ -118,6 +126,30 @@ function init(){
     return gsap.isTweening('.project');
   }
 
+  const createNavigation = () => {
+
+    // Crfeate a dot container
+    const newDiv = document.createElement('div');
+    newDiv.setAttribute('class', 'dots');
+
+    // Create a dot for each slide
+    for (let index = 0; index < totalSlides; index++) {
+      const element = document.createElement('button');
+      const text = document.createTextNode(index+1);
+      element.appendChild(text);
+      element.setAttribute('class', 'dot');
+      
+      if (currentStep === index+1) {
+        element.classList.add('active');
+      }
+
+      newDiv.appendChild(element)
+    }
+
+    // Add the dots to the project container
+    document.querySelector('.projects').appendChild(newDiv);
+  }
+
   // Event listener for the next button
   document.querySelector('button.next').addEventListener('click', function(e) {
     e.preventDefault();
@@ -133,7 +165,8 @@ function init(){
   })
 
   createTimelineIn('next', currentStep);
-  }
+  createNavigation();
+}
 
 
 window.addEventListener('load', function(){
