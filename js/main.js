@@ -3,6 +3,7 @@ function init(){
   gsap.set('.project', {x: '-100%'});
 
   let currentStep = 3;
+  const totalSlides = document.querySelectorAll('.project').length;
 
   // Update de class of the body to set the background color
   const updateClass = (projectClass) => {
@@ -30,6 +31,9 @@ function init(){
 
   // Animation Out
   const createTimelineOut = (index) => {
+
+    const element        = document.querySelector('div.project0' + index);
+
     const tlOut = gsap.timeline();
     tlOut.to(element, {
       duration: 0.7,
@@ -41,15 +45,33 @@ function init(){
 
   }
 
-  const transition = () => {
-    // Timeline transition for in and out animation
-    const tlTransition = gsap.timeline();
+  // Timeline transition for in and out animation
+  const transition = (index) => {
+
+    const goToIndex = index < totalSlides ? index+1 : 1;
+    const tlTransition = gsap.timeline({
+      onStart: function() {
+        // console.log({index}, {goToIndex});
+        currentStep < totalSlides ? currentStep++ : currentStep = 1;
+      }
+    });
+
+    const tlOut = createTimelineOut(index);
+    const tlIn = createTimelineIn(goToIndex);
+
     tlTransition
-      .add(tlIn)
       .add(tlOut)
+      .add(tlIn);
 
     return tlTransition;
   }
+
+  // Event listeners for the next button
+  document.querySelector('button.next').addEventListener('click', function(e) {
+    e.preventDefault();
+
+    transition(currentStep);
+  })
 
   createTimelineIn(currentStep);
   }
