@@ -85,6 +85,8 @@ function init(){
         element.classList.add('active');
       }
     })
+
+    positionDot();
   }
 
   // Timeline transition for direction, in and out animation
@@ -113,6 +115,10 @@ function init(){
 
   const createNavigation = () => {
 
+    // add active spot
+    const spot = document.createElement('div');
+    spot.setAttribute('class', 'spot');
+
     // Crfeate a dot container
     const newDiv = document.createElement('div');
     newDiv.setAttribute('class', 'dots');
@@ -140,9 +146,36 @@ function init(){
     }
 
     // Add the dots to the project container
+    newDiv.appendChild(spot);
     document.querySelector('.projects').appendChild(newDiv);
+    positionDot();
   }
 
+  const positionDot = () => {
+
+    const activeDotX   = document.querySelector('.dot.active').offsetLeft;
+    const spot         = document.querySelector('.spot');
+    const spotX        = spot.offsetLeft;
+    const destinationX = Math.round(activeDotX - spotX + 5);
+
+    const dotTl = gsap.timeline();
+    dotTl
+      .to(spot, {
+        duration: 0.5,
+        x: destinationX,
+        scale: 2.5,
+        ease: 'power1.Out'
+      })
+      .to(
+        spot, {
+          duration: 0.2,
+          scale: 1,
+          ease: 'power1.in'
+        }
+      )
+  }
+
+  // =-=-=-= EVENT LISTENERS =-=-=-=-=-
   // Event listener for the next button
   document.querySelector('button.next').addEventListener('click', function(e) {
     e.preventDefault();
@@ -163,9 +196,10 @@ function init(){
 
     !isTweening() && transition('prev', previousStep);
   })
-  // init sliders and dots
-  createTimelineIn('next', currentStep);
-  createNavigation();
+
+  // =-=-=-= INIT FUNCTION =-=-=-=-=-
+  createTimelineIn('next', currentStep); // init sliders
+  createNavigation(); // init dots
 }
 
 
