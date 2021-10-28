@@ -18,8 +18,8 @@ h1, h2, h3, h4 {
 }
 
 .crop-image img {
-  width: 640px;
-  height: 640px;
+  width: 440px;
+  height: 440px;
   top: 1px;
 }
 
@@ -91,8 +91,8 @@ h1, h2, h3, h4 {
 }
 .project-image {
     position: relative;
-    width: 640px;
-    height: 640px;
+    width: 440px;
+    height: 440px;
     margin: 10vh auto 0 auto;
     z-index: 5;
 }
@@ -172,7 +172,7 @@ button.btn {
     overflow: hidden;
     
     position: absolute;
-    top: 31vh;
+    top: 40vh;
     z-index: 1;
 }
 button.btn.next {
@@ -208,7 +208,7 @@ button.btn.next:before {
 
 .dots {
     position: absolute;
-    bottom: 10vh;
+    bottom: 5vh;
     left: 0;
     right: 0;
     top: auto;
@@ -266,6 +266,28 @@ button.btn.next:before {
     }
 }
 
-@media only screen and (min-width: 1140px) {
-    
+@media only screen and (max-height: 740px) {
+  .crop-image img {
+    width: 320px;
+    height: 320px;
+  }
+
+  .project-image {
+    width: 320px;
+    height: 320px;
+    margin: 10vh auto 0 auto;
+}
+}
+
+@media screen and (min-height: 1000px) {
+  .crop-image img {
+    width: 640px;
+    height: 640px;
+  }
+
+  .project-image {
+    width: 640px;
+    height: 640px;
+    margin: 10vh auto 0 auto;
+  }
 }
