@@ -11,7 +11,10 @@ function init(){
   }
 
   // Animation In
-  const createTimelineIn = (index) => {
+  const createTimelineIn = (direction, index) => {
+
+    const goPrev = direction === 'prev';
+
     const element        = document.querySelector('div.project0' + index),
           projectClasses = element.className.split(' '),
           projectClass   = projectClasses[1];
@@ -23,22 +26,33 @@ function init(){
     }, {
       duration: 0.7, x: 0,autoAlpha: 1,
       onStart: updateClass,
-      onStartParams: [projectClass]
+      onStartParams: [projectClass],
+      modifiers: {
+        x: gsap.utils.unitize(function(x) {
+          return goPrev ? Math.abs(x) : x;
+        })
+      }
     });
 
     return tlIn;
   }
 
   // Animation Out
-  const createTimelineOut = (index) => {
+  const createTimelineOut = (direction, index) => {
 
+    const goPrev = direction === 'prev';
     const element        = document.querySelector('div.project0' + index);
 
     const tlOut = gsap.timeline();
     tlOut.to(element, {
       duration: 0.7,
       x: 250,
-      autoAlpha: 0
+      autoAlpha: 0,
+      modifiers: {
+        x: gsap.utils.unitize(function(x) {
+          return goPrev ? -x : x;
+        })
+      }
     })
 
     return tlOut;
@@ -74,8 +88,8 @@ function init(){
       }
     });
 
-    const tlOut = createTimelineOut(index);
-    const tlIn = createTimelineIn(goToIndex);
+    const tlOut = createTimelineOut(direction, index);
+    const tlIn = createTimelineIn(direction, goToIndex);
 
     tlTransition
       .add(tlOut)
@@ -98,7 +112,7 @@ function init(){
     transition('prev', currentStep);
   })
 
-  createTimelineIn(currentStep);
+  createTimelineIn('next', currentStep);
   }
 
 

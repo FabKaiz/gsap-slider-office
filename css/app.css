@@ -10,7 +10,7 @@ body {
     transition: background-color 0.4s linear;
 }
 body.project01 {background-color: #264051;}
-body.project02 {background-color: #83b1a3;}
+body.project02 {background-color: #D0B4A1;}
 body.project03 {background-color: #A9BCDD;}
 
 h1, h2, h3, h4 {
@@ -133,10 +133,10 @@ a.button {
 
 /* =GameBoy */
 .project02 .project-title {
-    color: #E6CBB9;
+    color: #5e534d;
 }
 .project02 .project-subtitle {
-    color: #e6cbb9ab;
+    color: #463e39ab;
 }
 .project02 .project-image:before {
     background-color: #e6cbb9c2;
