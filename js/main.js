@@ -45,14 +45,32 @@ function init(){
 
   }
 
-  // Timeline transition for in and out animation
-  const transition = (index) => {
+  // Set in wich direction the slider should move
+  const getGoToIndex = (direction, index) => {
 
-    const goToIndex = index < totalSlides ? index+1 : 1;
+    let goToIndex = index;
+
+    if (direction === 'next') {
+      goToIndex = index < totalSlides ? index+1 : 1
+    } else {
+      goToIndex = index > 1 ? index-1 : totalSlides
+    }
+
+    return goToIndex;
+  }
+
+  const updateCurrentStep = (goToIndex) => {
+    currentStep = goToIndex
+  }
+
+  // Timeline transition for direction, in and out animation
+  const transition = (direction, index) => {
+
+    const goToIndex = getGoToIndex(direction, index);
     const tlTransition = gsap.timeline({
       onStart: function() {
         // console.log({index}, {goToIndex});
-        currentStep < totalSlides ? currentStep++ : currentStep = 1;
+        updateCurrentStep(goToIndex);
       }
     });
 
@@ -66,11 +84,18 @@ function init(){
     return tlTransition;
   }
 
-  // Event listeners for the next button
+  // Event listener for the next button
   document.querySelector('button.next').addEventListener('click', function(e) {
     e.preventDefault();
 
-    transition(currentStep);
+    transition('next', currentStep);
+  })
+
+  // Event listener for the previous buttonn
+  document.querySelector('button.prev').addEventListener('click', function(e) {
+    e.preventDefault();
+
+    transition('prev', currentStep);
   })
 
   createTimelineIn(currentStep);
